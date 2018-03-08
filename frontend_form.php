@@ -90,10 +90,7 @@ $currentinoiceValue = $maxinvoiceValue + 1;
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="sender">Sender</label>
-                        <textarea class="form-control" rows="5" name="sender" id="sender"  readonly>
-						Sri Sai Sakthi Services
-						New No 29, Reddy Street,Koratthur, Chennai-600080,TamilNadu.
-						GSTIN/UIIN:33BKVPS6894L1ZW
+                        <textarea class="form-control" rows="5" name="sender" id="sender"  readonly>Sri Sai Sakthi Services&#013;New No 29, Reddy Street,Koratthur, Chennai-600080,TamilNadu.&#013;GSTIN/UIIN:33BKVPS6894L1ZW
 						</textarea>
                     </div>
                 </div>
