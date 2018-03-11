@@ -2,6 +2,70 @@
 
 function sss_details()
 {
+	//form data
+	
+	$sender=$_POST['sender'];
+$dated=$_POST['dated'];
+$invoiceno=$_POST['invoiceno'];
+$deliverynote=$_POST['deliverynote'];
+$paymentmode=$_POST['paymentmode'];
+$supplierref=$_POST['supplierref'];
+$otherref=$_POST['otherref'];
+$buyer=$_POST['buyer'];
+$buyersorder=$_POST['buyersorder'];
+$buyersdated=$_POST['buyersdated'];
+$despatchno=$_POST['despatchno'];
+$deliverydate=$_POST['deliverydate'];
+$despatchedthrough=$_POST['despatchedthrough'];
+$destination=$_POST['destination'];
+$terms=$_POST['terms'];
+$total=$_POST['total'];
+$taxcgst=$_POST['taxcgst'];
+$cgstamount=$_POST['cgstamount'];
+$taxsgst=$_POST['taxsgst'];
+$sgstamount=$_POST['sgstamount'];
+$taxigst=$_POST['taxigst'];
+$igstamount=$_POST['igstamount'];
+$totaltax=$_POST['totaltax'];
+$totalround=$_POST['totalround'];
+$amountwords=$_POST['amountwords'];
+
+// dynamic field data
+$desc = $_POST['desc'];
+$hsn = $_POST['hsn'];
+$qty = $_POST['qty'];
+$rate = $_POST['rate'];
+
+// serialized dynamic field data
+$ser_desc = serialize($desc);
+$ser_hsn = serialize($hsn);
+$ser_qty = serialize($qty);
+$ser_rate = serialize($rate);
+
+    if (isset($_POST['submit']))
+    {
+        global $wpdb;
+        $table_name = $wpdb->prefix .'sss';
+
+        $wpdb->update(
+            $table_name, //table
+            array('sender' => $sender,'dated' => $dated, 'invoiceno' => $invoiceno, 'deliverynote' => $deliverynote,'paymentmode' => $paymentmode, 'supplierref' => $supplierref, 'otherref' => $otherref,'buyer' => $buyer, 'buyersorder' => $buyersorder, 'buyersdated' => $buyersdated,'despatchno' => $despatchno, 'deliverydate' => $deliverydate, 'despatchedthrough' => $despatchedthrough,'destination' => $destination, 'terms' => $terms, 'description' => $ser_desc,'hsn' => $ser_hsn, 'qty' => $ser_qty, 'rate' => $ser_rate,'total' => $total, 'taxcgst' => $taxcgst, 'cgstamount' => $cgstamount,'taxsgst' => $taxsgst, 'sgstamount' => $sgstamount, 'taxigst' => $taxigst,'igstamount' => $igstamount, 'totaltax' => $totaltax, 'totalround' => $totalround,'amountwords' => $amountwords ),
+            array( 'id' => $_GET['id'] ),
+			array('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%f','%f','%f','%f','%f','%f','%f','%f','%d','%s'),
+array( '%d' )        
+	   );
+
+/*$wpdb->show_errors();
+$wpdb->print_error();
+$wpdb->last_query();*/
+
+
+        $message="Updated";
+
+
+    }
+	
+	
     $id = $_GET['id'];
     global $wpdb;
     $table_name = $wpdb->prefix . "sss";
@@ -30,10 +94,11 @@ $unser_qty = unserialize($value->qty);
 $unser_rate = unserialize($value->rate);
 //echo "<pre>";print_r($unser_desc);echo "<br>";print_r($unser_hsn);echo "<br>";print_r($unser_qty);echo "<br>";print_r($unser_rate);
         ?>
-     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+   <!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
         <div style='text-align:center;'><h2>INVOICE NO:<?php echo $value->invoiceno; ?> </h2></div>
+		<div class=""><p><?php echo $message; ?></p></div>
         <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="POST">
             <div class="container-fluid">
                 <form>
@@ -55,7 +120,7 @@ $unser_rate = unserialize($value->rate);
                         <div class="col-sm-2">
                             <div class="form-group">
                                 <label for="dated">Dated</label>
-                                <input type="date" class="form-control" name="dated" id="dated" value="<?php echo $value->dated;?>">
+                                <input type="date" class="form-control" name="dated" id="dated" required value="<?php echo $value->dated;?>">
                             </div>
                         </div>
                         <div class="col-sm-2">
@@ -89,7 +154,7 @@ $unser_rate = unserialize($value->rate);
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label for="buyer">Buyer</label>
-                                <textarea class="form-control" rows="5" name="buyer" id="buyer" value="<?php echo $value->buyer;?>"></textarea>
+                                <textarea class="form-control" rows="5" name="buyer" id="buyer" required ><?php echo $value->buyer;?></textarea>
                             </div>
                         </div>
 
@@ -134,14 +199,14 @@ $unser_rate = unserialize($value->rate);
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label for="terms">Terms of delivery</label>
-                                <textarea class="form-control" rows="3" name="terms" id="terms" value="<?php echo $value->terms;?>"></textarea>
+                                <textarea class="form-control" rows="3" name="terms" id="terms" ><?php echo $value->terms;?></textarea>
                             </div>
                         </div>
                     </div>
                     <hr>
                     <?php
-                    $count = count($unser_desc);
-                    for ($x=0;$x <$count; $x++){
+                    $count = count($unser_desc); 
+                    for ($x=0;$x <$count; $x++){ if(empty($unser_desc[$x] )) continue;
                     ?>
                     <div class="row removedy-<?php echo $x;?>">
                        <!-- <div class="col-sm-1">
@@ -166,7 +231,7 @@ $unser_rate = unserialize($value->rate);
                         <div class="col-sm-1">
                             <div class="form-group">
 
-                                <input type="text" class="form-control" id="qty" name="qty[]" value="<?php echo $unser_qty[$x];?>" placeholder="Quantity">
+                                <input type="text" class="form-control" id="qty" name="qty[]" value="<?php echo $unser_qty[$x];?>" placeholder="Qty">
                             </div>
                         </div>
                         <div class="col-sm-1">
@@ -321,7 +386,7 @@ $unser_rate = unserialize($value->rate);
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label for="amountwords">Amount Chargrable (in words)</label>
-                                <textarea class="form-control" rows="2" name="amountwords" id="amountwords" value="<?php echo $value->amountwords;?>" placeholder="Amount Chargrable (in words)"></textarea>
+                                <textarea class="form-control" rows="2" name="amountwords" id="amountwords"  placeholder="Amount Chargrable (in words)"><?php echo $value->amountwords;?></textarea>
                             </div>
                         </div>
                     </div>
@@ -337,14 +402,20 @@ $unser_rate = unserialize($value->rate);
             </div>
         </form>
             <?php if ($value->id == $max) { ?>
-             <table>  <tr> <td>
+			<div class="container-fluid">
+                <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group">
                     <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
-                        <input type="submit" name="delete" value="Delete"
+                        <input type="submit" class="btn btn-info btn-lg" name="delete" value="Delete"
                                onclick="return confirm('Are you sure you want to delete?')">
                     </form>
-                </td></tr>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
             <?php } ?>
-        </table>
+
         <?php
         /*echo "<pre>";
         print_r($value);*/

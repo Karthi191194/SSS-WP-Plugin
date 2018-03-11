@@ -50,6 +50,21 @@ register_activation_hook(__FILE__, 'sss_table');
 /* enqueue script */
 
 function sss_script() {
-    wp_enqueue_style('bootstrap', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css');
+    wp_enqueue_style('z_bootstrap_css', plugins_url( 'library/bootstrap.min.css', __FILE__ ));
+	    wp_enqueue_script('z_jquery', plugins_url( 'library/jquery.min.js', __FILE__ ));
+    wp_enqueue_script('z_bootstrap_js', plugins_url( 'library/bootstrap.min.js', __FILE__ ));
+
 }
 add_action('wp_enqueue_scripts', 'sss_script');
+
+/* enqueue script backend */
+function load_custom_wp_admin_style($hook) { 
+        // Load only on ?page=mypluginname
+        if($hook != 'admin_page_sss_details') {
+                return;
+        }
+    wp_enqueue_style('z_bootstrap_css', plugins_url( 'library/bootstrap.min.css', __FILE__ ));
+	    wp_enqueue_script('z_jquery', plugins_url( 'library/jquery.min.js', __FILE__ ));
+    wp_enqueue_script('z_bootstrap_js', plugins_url( 'library/bootstrap.min.js', __FILE__ ));
+}
+add_action( 'admin_enqueue_scripts', 'load_custom_wp_admin_style' );

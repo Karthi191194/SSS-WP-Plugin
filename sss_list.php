@@ -23,6 +23,11 @@ function sss_list(){?>
         <td><?php echo $value->invoiceno;?></td>
         <td><?php echo $value->buyer;?></td>
         <td><a href="<?php echo admin_url('admin.php?page=sss_details&id='.$value->id);?>">View Details</a></td>
+        <td>
+		<form>
+		<input type="submit" name="print" value="PRINT"> 
+		</form>
+		</td>
 
 
     </tr>
