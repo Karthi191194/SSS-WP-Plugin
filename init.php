@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: SSS
-Description: Use shortcode [sss_form] to display form on page.
+Description: Use shortcode [sss_form] to display form on the page.
 Version: 1
 Author: Karthick
 */
@@ -14,12 +14,18 @@ add_action('admin_menu','management_menu');
 function management_menu(){
 	add_menu_page('SSS','SSS','manage_options','sss_list','sss_list');
     add_submenu_page('null', 'DETAILS','DETAILS','manage_options','sss_details','sss_details');
+   add_submenu_page('null', 'PDF','PDF','manage_options','sss_pdf','sss_pdf');
 }
 
 define('ROOT_DIR',plugin_dir_path(__FILE__));
 
 require_once (ROOT_DIR.'sss_list.php');
 require_once (ROOT_DIR.'sss_details.php');
+
+function sss_pdf(){
+    require_once(ROOT_DIR.'pdf.php');
+}
+
 
 /* frontEnd form */
 
@@ -36,7 +42,7 @@ function sss_table(){
     $table_name = $wpdb -> prefix. 'sss';
     $charset_collate = $wpdb -> get_charset_collate();
 
-    $sql = "CREATE TABLE $table_name (id int (5) NOT NULL AUTO_INCREMENT, sender VARCHAR (150) NOT NULL,  dated VARCHAR (15) NOT NULL,  invoiceno VARCHAR (15) NOT NULL,  deliverynote VARCHAR (150) NOT NULL,  paymentmode VARCHAR (50) NOT NULL, supplierref VARCHAR (50) NOT NULL, otherref VARCHAR (50) NOT NULL,  buyer VARCHAR (150) NOT NULL,  buyersorder VARCHAR (50) NOT NULL,  buyersdated VARCHAR (50) NOT NULL,  despatchno VARCHAR (50) NOT NULL, deliverydate VARCHAR (50) NOT NULL,despatchedthrough VARCHAR (50) NOT NULL, destination VARCHAR (50) NOT NULL, terms VARCHAR (150) NOT NULL, description VARCHAR (150) NOT NULL, hsn VARCHAR (150) NOT NULL, qty VARCHAR (150) NOT NULL, rate VARCHAR (150) NOT NULL,  total FLOAT (20) NOT NULL,  taxcgst FLOAT (20) NOT NULL,  cgstamount FLOAT (20) NOT NULL,  taxsgst FLOAT (20) NOT NULL,sgstamount FLOAT (20) NOT NULL, taxigst FLOAT (20) NOT NULL,  igstamount FLOAT (20) NOT NULL,  totaltax FLOAT (20) NOT NULL,  totalround INT (20) NOT NULL,  amountwords VARCHAR (150) NOT NULL, timeStamp TIMESTAMP(6) NOT NULL , PRIMARY KEY(id))$charset_collate;";
+    $sql = "CREATE TABLE $table_name (id int (5) NOT NULL AUTO_INCREMENT, sender VARCHAR (150) NOT NULL,  dated VARCHAR (15) NOT NULL,  invoiceno VARCHAR (15) NOT NULL,  deliverynote VARCHAR (150) NOT NULL,  paymentmode VARCHAR (50) NOT NULL, supplierref VARCHAR (50) NOT NULL, otherref VARCHAR (50) NOT NULL,  buyer VARCHAR (150) NOT NULL,  buyersorder VARCHAR (50) NOT NULL,  buyersdated VARCHAR (50) NOT NULL,  despatchno VARCHAR (50) NOT NULL, deliverydate VARCHAR (50) NOT NULL,despatchedthrough VARCHAR (50) NOT NULL, destination VARCHAR (50) NOT NULL, terms VARCHAR (150) NOT NULL, description VARCHAR (150) NOT NULL, hsn VARCHAR (150) NOT NULL, qty VARCHAR (150) NOT NULL, rate VARCHAR (150) NOT NULL, amount VARCHAR (150) NOT NULL,  total FLOAT (20) NOT NULL,  taxcgst FLOAT (20) NOT NULL,  cgstamount FLOAT (20) NOT NULL,  taxsgst FLOAT (20) NOT NULL,sgstamount FLOAT (20) NOT NULL, taxigst FLOAT (20) NOT NULL,  igstamount FLOAT (20) NOT NULL,  totaltax FLOAT (20) NOT NULL,  totalround INT (20) NOT NULL,  amountwords VARCHAR (150) NOT NULL, timeStamp TIMESTAMP(6) NOT NULL , PRIMARY KEY(id))$charset_collate;";
 
     require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
     dbDelta($sql);

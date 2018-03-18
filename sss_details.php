@@ -35,12 +35,14 @@ $desc = $_POST['desc'];
 $hsn = $_POST['hsn'];
 $qty = $_POST['qty'];
 $rate = $_POST['rate'];
+$amount = $_POST['amount'];
 
 // serialized dynamic field data
 $ser_desc = serialize($desc);
 $ser_hsn = serialize($hsn);
 $ser_qty = serialize($qty);
 $ser_rate = serialize($rate);
+$ser_amount = serialize($amount);
 
     if (isset($_POST['submit']))
     {
@@ -49,9 +51,9 @@ $ser_rate = serialize($rate);
 
         $wpdb->update(
             $table_name, //table
-            array('sender' => $sender,'dated' => $dated, 'invoiceno' => $invoiceno, 'deliverynote' => $deliverynote,'paymentmode' => $paymentmode, 'supplierref' => $supplierref, 'otherref' => $otherref,'buyer' => $buyer, 'buyersorder' => $buyersorder, 'buyersdated' => $buyersdated,'despatchno' => $despatchno, 'deliverydate' => $deliverydate, 'despatchedthrough' => $despatchedthrough,'destination' => $destination, 'terms' => $terms, 'description' => $ser_desc,'hsn' => $ser_hsn, 'qty' => $ser_qty, 'rate' => $ser_rate,'total' => $total, 'taxcgst' => $taxcgst, 'cgstamount' => $cgstamount,'taxsgst' => $taxsgst, 'sgstamount' => $sgstamount, 'taxigst' => $taxigst,'igstamount' => $igstamount, 'totaltax' => $totaltax, 'totalround' => $totalround,'amountwords' => $amountwords ),
+            array('sender' => $sender,'dated' => $dated, 'invoiceno' => $invoiceno, 'deliverynote' => $deliverynote,'paymentmode' => $paymentmode, 'supplierref' => $supplierref, 'otherref' => $otherref,'buyer' => $buyer, 'buyersorder' => $buyersorder, 'buyersdated' => $buyersdated,'despatchno' => $despatchno, 'deliverydate' => $deliverydate, 'despatchedthrough' => $despatchedthrough,'destination' => $destination, 'terms' => $terms, 'description' => $ser_desc,'hsn' => $ser_hsn, 'qty' => $ser_qty, 'rate' => $ser_rate, 'amount' => $ser_amount,'total' => $total, 'taxcgst' => $taxcgst, 'cgstamount' => $cgstamount,'taxsgst' => $taxsgst, 'sgstamount' => $sgstamount, 'taxigst' => $taxigst,'igstamount' => $igstamount, 'totaltax' => $totaltax, 'totalround' => $totalround,'amountwords' => $amountwords ),
             array( 'id' => $_GET['id'] ),
-			array('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%f','%f','%f','%f','%f','%f','%f','%f','%d','%s'),
+			array('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%f','%f','%f','%f','%f','%f','%f','%f','%d','%s'),
 array( '%d' )        
 	   );
 
@@ -92,6 +94,7 @@ $wpdb->last_query();*/
 $unser_hsn = unserialize($value->hsn);
 $unser_qty = unserialize($value->qty);
 $unser_rate = unserialize($value->rate);
+$unser_amount = unserialize($value->amount);
 //echo "<pre>";print_r($unser_desc);echo "<br>";print_r($unser_hsn);echo "<br>";print_r($unser_qty);echo "<br>";print_r($unser_rate);
         ?>
    <!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -206,7 +209,7 @@ $unser_rate = unserialize($value->rate);
                     <hr>
                     <?php
                     $count = count($unser_desc); 
-                    for ($x=0;$x <$count; $x++){ if(empty($unser_desc[$x] )) continue;
+                    for ($x=0;$x <$count; $x++){ if(empty($unser_desc[$x] ) && empty($unser_hsn[$x] ) && empty($unser_qty[$x] )&& empty($unser_rate[$x] )) continue;
                     ?>
                     <div class="row removedy-<?php echo $x;?>">
                        <!-- <div class="col-sm-1">
@@ -231,20 +234,20 @@ $unser_rate = unserialize($value->rate);
                         <div class="col-sm-1">
                             <div class="form-group">
 
-                                <input type="text" class="form-control" id="qty" name="qty[]" value="<?php echo $unser_qty[$x];?>" placeholder="Qty">
+                                <input type="number" class="form-control" id="qty" name="qty[]" value="<?php echo $unser_qty[$x];?>" placeholder="Qty">
                             </div>
                         </div>
                         <div class="col-sm-1">
                             <div class="form-group">
 
-                                <input type="text" class="form-control" id="rate" name="rate[]" value="<?php echo $unser_rate[$x];?>" placeholder="Rate">
+                                <input type="number" class="form-control" id="rate" name="rate[]" value="<?php echo $unser_rate[$x];?>" placeholder="Rate">
                             </div>
                         </div>
                         <div class="col-sm-2 ">
                             <div class="form-group">
                                 <div class="input-group">
 
-                                    <input type="text" class="form-control" id="amount" name="amount[]" placeholder="Amount">
+                                    <input type="text" class="form-control" id="amount" name="amount[]"value="<?php echo $unser_amount[$x];?>" readonly placeholder="Amount">
                                     <div class="input-group-btn">
                                         <button class="btn btn-danger" type="button" onclick="remove_dynamic_fields_old(<?php echo $x; ?>);"> <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> </button>
                                     </div>
@@ -254,6 +257,9 @@ $unser_rate = unserialize($value->rate);
                     </div>
                     <?php } ?>
                     <div class="row">
+											                        <div id="dym_fields">
+
+                        </div>
                         <div class="col-sm-1">
                             <!--   <div class="form-group">
 
@@ -275,20 +281,21 @@ $unser_rate = unserialize($value->rate);
                         <div class="col-sm-1">
                             <div class="form-group">
 
-                                <input type="text" class="form-control" id="qty" name="qty[]" placeholder="Qty">
+                                <input type="number" class="form-control" id="qty" name="qty[]" placeholder="Qty">
                             </div>
                         </div>
                         <div class="col-sm-1">
                             <div class="form-group">
 
-                                <input type="text" class="form-control" id="rate" name="rate[]" placeholder="Rate">
+                                <input type="number" class="form-control" id="rate" name="rate[]" placeholder="Rate">
                             </div>
                         </div>
+
                         <div class="col-sm-2 ">
                             <div class="form-group">
                                 <div class="input-group">
 
-                                    <input type="text" class="form-control" id="amount" name="amount[]" placeholder="Amount">
+                                    <input type="text" class="form-control" id="amount" name="amount[]" readonly placeholder="Amount">
                                     <div class="input-group-btn">
                                         <button class="btn btn-success" type="button" onclick="dynamic_fields();"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </button>
                                     </div>
@@ -296,9 +303,7 @@ $unser_rate = unserialize($value->rate);
                             </div>
                         </div>
 
-                        <div id="dym_fields">
 
-                        </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-10"></div>
@@ -306,7 +311,7 @@ $unser_rate = unserialize($value->rate);
 
                             <div class="form-group ">
                                 <label for="total">Total (Rs)</label>
-                                <input type="text" class="form-control" id="total" name="total" value="<?php echo $value->total;?>"placeholder="Total">
+                                <input type="text" class="form-control" id="total" name="total" readonly value="<?php echo $value->total;?>"placeholder="Total">
                             </div>
                         </div>
                     </div>
@@ -427,7 +432,7 @@ room++;
 var objTo = document.getElementById('dym_fields')
 var divadd = document.createElement("div");
 divadd.setAttribute("class","form-group removeclass"+room);
-divadd.innerHTML = '<div class="col-sm-1"></div><div class="col-sm-5"><div class="form-group"><input type="text" class="form-control" id="desc"  name="desc[]" placeholder="Description of Goods"></div></div><div class="col-sm-2"><div class="form-group"><input type="text" class="form-control" id="hsn" name="hsn[]" placeholder="HSN/SAC"> </div></div><div class="col-sm-1"><div class="form-group"><input type="text" class="form-control" id="qty" name="qty[]" placeholder="Qty"></div></div><div class="col-sm-1"><div class="form-group"><input type="text" class="form-control" id="rate" name="rate[]" placeholder="Rate"></div></div><div class="col-sm-2 "><div class="form-group"><div class="input-group"><input type="text" class="form-control" id="amount" name="amount[]" placeholder="Amount"><div class="input-group-btn"> <button class="btn btn-danger" type="button" onclick="remove_dynamic_fields('+ room +');"> <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> </button></div></div></div></div>';
+divadd.innerHTML = '<div class="col-sm-1"></div><div class="col-sm-5"><div class="form-group"><input type="text" class="form-control  " id="desc"  name="desc[]" placeholder="Description of Goods"></div></div><div class="col-sm-2"><div class="form-group"><input type="text" class="form-control" id="hsn" name="hsn[]" placeholder="HSN/SAC"> </div></div><div class="col-sm-1"><div class="form-group"><input type="text" class="form-control" id="qty"  name="qty[]" placeholder="Qty"></div></div><div class="col-sm-1"><div class="form-group"><input type="text" class="form-control" id="rate" name="rate[]" placeholder="Rate"></div></div><div class="col-sm-2 "><div class="form-group"><div class="input-group"><input type="text" class="form-control" id="amount" readonly name="amount[]" placeholder="Amount"><div class="input-group-btn"> <button class="btn btn-danger" type="button" onclick="remove_dynamic_fields('+ room +');"> <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> </button></div></div></div></div>';
 objTo.appendChild(divadd)
 }
 function remove_dynamic_fields(rid){
@@ -437,8 +442,24 @@ function remove_dynamic_fields_old(rid){
 
 </script>
 <script>
+$(document).on('keyup', "input[name^='qty'],input[name^='rate'],input[name^='amount'],#total,#taxcgst,#taxsgst,#taxigst", function(e){
+      var uv = $("input[name^='qty']").length;
+	  var qty = $("input[name^='qty']");
+	  var rate = $("input[name^='rate']");
+	  var amount = $("input[name^='amount']");
 
-$("#total,#taxcgst,#taxsgst,#taxigst").keyup(function(){
+	  var total = 0;
+	   for(i=0;i < uv;i++) {
+			qty_values = qty.eq(i).val();
+			rate_values = rate.eq(i).val();
+			var amounts= qty_values * rate_values;
+			amount.eq(i).val(amounts);
+		
+			 total+= parseFloat(amount.eq(i).val());
+			 $('#total').val(total);
+
+    }
+
 	var d = parseFloat($('#total').val());
 	var e = parseFloat($('#taxcgst').val());
 	var g = parseFloat($('#taxsgst').val());
