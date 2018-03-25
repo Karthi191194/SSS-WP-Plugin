@@ -188,17 +188,23 @@ if(empty($unser_desc[$x] ) && empty($unser_hsn[$x] ) && empty($unser_qty[$x] )&&
 $content.="<tr class='pdf-price-details' >
 <td >";
 $content.=$x+1;
-$content.="<br><strong></strong><br><strong></strong><br></td>
-<td class='text-left'><strong>$unser_desc[$x]</strong> <br><strong class='text-right'>Output CGST $value->taxcgst%</strong><br><strong  class='text-right'>Output SGST $value->taxsgst%</strong><br></td>
-<td >$unser_hsn[$x]<br><strong></strong><br><strong></strong><br></td>
-<td >$unser_qty[$x]<br><strong></strong><br><strong></strong><br></td>
-<td  >$unser_rate[$x]<br><strong></strong><br><strong></strong><br></td>
-<td >$unser_amount[$x]<br><strong>";
-$content.=$value->taxcgst/100*$unser_amount[$x];
-$content.="</strong><br><strong>".$value->taxsgst/100*$unser_amount[$x]."</strong><br></td>
+$content.="</td>
+<td class='text-left'><strong>$unser_desc[$x]</strong></td>
+<td >$unser_hsn[$x]</td>
+<td >$unser_qty[$x]</td>
+<td >$unser_rate[$x]</td>
+<td >$unser_amount[$x]<br><strong></td>
 </tr>";
 }
-$content.="<tr class='pdf-price-last'>
+$content.="<tr class='pdf-price-details'><td ></td ><td ></td ><td ></td ><td ></td ><td ></td ><td ></td ></tr>
+<tr class='pdf-price-details'><td ></td ><td ></td ><td ></td ><td ></td ><td ></td ><td ></td ></tr>
+<tr class='pdf-price-details'><td ></td ><td ></td ><td ></td ><td ></td ><td ></td ><td ></td ></tr>
+<tr class='pdf-price-details'><td ></td ><td ></td ><td ></td ><td ></td ><td ></td ><td ></td ></tr>
+<tr class='pdf-price-details'><td></td><td>Output CGST</td><td></td><td></td><td></td><td>--</td></tr>
+<tr class='pdf-price-details' style='border-top:none;'><td></td><td>Output SGST</td><td></td><td></td><td></td><td>--</td></tr>
+<tr class='pdf-price-details' style='border-top:none;'><td></td><td>Output IGST</td><td></td><td></td><td></td><td>--</td></tr>
+<tr class='pdf-price-details'><td></td><td>Round off</td><td></td><td></td><td></td><td>--</td></tr>
+<tr class='pdf-price-last'>
 <td ></td>
 <td ><strong>Total</strong></td>
 <td ><strong></strong></td>
@@ -214,82 +220,6 @@ Amount Chargeable(in words)
 </td>
 </tr>
 </table>";
-if($value->igstamount == 0){
-$content.="<table style='width:100%;' class=' pdf-price pdf-tax'>
-<tr>
-<th class='width-25' rowspan='2' class='text-center'>HSN/SAC</th>
-<th class='width-25' rowspan='2' class='text-center'>Taxable Value</th>
-<th class='width-25' colspan='2' class='text-center'>Central Tax</th>
-<th  class='width-25' colspan='2' class='text-center'>Store Tax</th>
-</tr>
-<tr>
-<th >Rate</th>
-<th >Amount</th>
-<th >Rate</th>
-<th >Amount</th>
-</tr>";
-for ($x=0;$x <$count; $x++){ 
-if(empty($unser_desc[$x] ) && empty($unser_hsn[$x] ) && empty($unser_qty[$x] )&& empty($unser_rate[$x] )) continue;
-$content.="<tr>
-<td class='text-left'>$unser_hsn[$x]</td>
-<td>$unser_amount[$x]</td>
-<td>$value->taxcgst%</td>
-<td>".$value->taxcgst/100*$unser_amount[$x]."</td>
-<td>$value->taxsgst%</td>
-<td>".$value->taxsgst/100*$unser_amount[$x]."</td>
-</tr>";
-}
-$content.="
-<tr>
-<td ><strong>Total</strong></td>
-<td><strong>$value->total</strong></td>
-<td><strong></strong></td>
-<td><strong>$value->cgstamount</strong></td>
-<td><strong></strong></td>
-<td><strong>$value->sgstamount</strong></td>
-</tr>
-</table>";
-}
-else{
-$content.="
-<table style='width:94.5%;' class='pdf-price pdf-tax'>
-<tr>
-<th class='width-20' rowspan='2'>HSN/SAC</th>
-<th class='width-20' rowspan='2'>Taxable Value</th>
-<th class='width-20' colspan='2'>Central Tax</th>
-<th  class='width-20' colspan='2'>Store Tax</th>
-<th  class='width-20' colspan='2'>Integrated Tax</th>
-</tr>
-<tr>
-<th >Rate</th>
-<th >Amount</th>
-<th >Rate</th>
-<th >Amount</th>
-<th >Rate</th>
-<th >Amount</th>
-</tr>
-<tr>
-<td class='text-left'>123</td>
-<td>42,000.00</td>
-<td>9%</td>
-<td>3,780.00</td>
-<td>9%</td>
-<td>3,780.00</td>
-<td>1%</td>
-<td>3,780.00</td>
-</tr>
-<tr>
-<td ><strong>Total</strong></td>
-<td><strong>42,000.00</strong></td>
-<td><strong></strong></td>
-<td><strong>3,780.00</strong></td>
-<td><strong></strong></td>
-<td><strong>3,780.00</strong></td>
-<td><strong></strong></td>
-<td><strong>Rs.3,780.00</strong></td>
-</tr>
-</table>";
-}
 $content.="
 <div style='float:left;margin-top:20px;'>
 <strong>

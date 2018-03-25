@@ -358,7 +358,7 @@ $('.removeclass'+rid).remove();}
 
 </script>
 <script>
-$(document).on('keyup', "input[name^='qty'],input[name^='rate'],input[name^='amount'],#total,#taxcgst,#taxsgst,#taxigst,#amountwords", function(e){
+$(document).on('keyup', "input[name^='qty'],input[name^='rate'],input[name^='amount'],#total,#taxcgst,#taxsgst,#taxigst,#amountwords,#totalround", function(e){
       var uv = $("input[name^='qty']").length;
 	  var qty = $("input[name^='qty']");
 	  var rate = $("input[name^='rate']");
@@ -391,7 +391,7 @@ $(document).on('keyup', "input[name^='qty'],input[name^='rate'],input[name^='amo
 	var k = c.toFixed();
 	$('#totalround').val(k);
 	
-	var total = $("#total").val();
+	var total = $("#totalround").val();
     var total_words = convertNumberToWords(total);
 	$("#amountwords").val(total_words);
 	
