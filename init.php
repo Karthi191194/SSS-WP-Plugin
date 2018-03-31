@@ -74,3 +74,16 @@ function load_custom_wp_admin_style($hook) {
     wp_enqueue_script('z_bootstrap_js', plugins_url( 'library/bootstrap.min.js', __FILE__ ));
 }
 add_action( 'admin_enqueue_scripts', 'load_custom_wp_admin_style' );
+
+/*ajax*/
+function test_ajax_load_scripts() {
+
+	wp_enqueue_script( "ajax-test", plugin_dir_url( __FILE__ ) . 'library/sss-ajax.js', array( 'jquery' ) );
+
+	wp_localize_script( 'ajax-test', 'the_ajax_script', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );	
+}
+add_action('wp_print_scripts', 'test_ajax_load_scripts');
+
+
+require_once "buyer.php";
+

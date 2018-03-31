@@ -53,9 +53,7 @@ $ser_amount = serialize($amount);
             array('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%f','%f','%f','%f','%f','%f','%f','%f','%d','%s')
         );
 
-/*$wpdb->show_errors();
-$wpdb->print_error();
-$wpdb->last_query();*/
+
 
 
         $message="Success";
@@ -83,7 +81,7 @@ $currentinoiceValue = $maxinvoiceValue + 1;
 
 <body>
 <div><h1 style="text-align:center;">TAX INVOICE</h1></div>
-<?php if (isset($message)): ?><div class=""><p><?php echo $message; ?></p></div><?php endif; ?>
+<?php if (isset($message)): ?><div class="success"><p><?php echo $message; ?></p></div><?php endif; ?>
 
 <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="POST">
     <div class="container-fluid">
@@ -142,6 +140,7 @@ $currentinoiceValue = $maxinvoiceValue + 1;
                         <label for="buyer">Buyer</label>
                         <textarea class="form-control" rows="5" name="buyer" required id="buyer"></textarea>
                     </div>
+					<div id="buyer-list"></div>
                 </div>
 
                 <div class="col-sm-2">
@@ -332,7 +331,7 @@ $currentinoiceValue = $maxinvoiceValue + 1;
 			 <div class="row">
                 <div class="col-sm-3">
                     <div class="form-group">
-                        <input type="submit" class="btn btn-success btn-lg" name="submit" value="Print">
+                        <input type="submit" class="btn btn-success btn-lg sss-f-submit" name="submit" value="SAVE">
 						
                     </div>
                 </div>
@@ -343,6 +342,38 @@ $currentinoiceValue = $maxinvoiceValue + 1;
 
 <div><a href="<?php echo admin_url('admin.php?page=sss_list');?>">Click here for Tax Invoce List</a></div>
 </body>
+<style>
+.success {
+	background-color: #449d44;
+    color: #fff;
+    padding: 6px 1px 6px 18px;
+    font-size: 12px;
+    margin-bottom: 15px;
+}
+.success p {
+	padding: 0;
+	margin: 0;
+}
+
+.sss-f-submit {
+    font-size: 12px !important;
+    border-radius: 6px !important;
+	color: #fff !important;
+    background-color: #5cb85c !important;
+    border-color: #4cae4c !important;
+}
+#buyer-list ul:empty {
+	background-color:transparent;
+}
+#buyer-list ul{
+	background-color:#eeeeee;
+}
+#buyer-list li:hover{
+	background-color:#fff;
+	cursor: pointer;
+	padding: 5px;
+}
+</style>
 <script>
 var room = 1;
 function dynamic_fields(){
@@ -355,6 +386,11 @@ objTo.appendChild(divadd)
 }
 function remove_dynamic_fields(rid){
 $('.removeclass'+rid).remove();}
+
+jQuery(document).on('click', '#buyer-list li',function(){
+	jQuery('#buyer').val($(this).text());
+	$("#buyer-list").fadeOut();
+});
 
 </script>
 <script>
@@ -480,5 +516,9 @@ $(document).on('keyup', "input[name^='qty'],input[name^='rate'],input[name^='amo
 });
 
 </script>
+<?php
 
+/*$wpdb->show_errors();
+$wpdb->print_error();
+$wpdb->last_query();*/?>
 </html>
