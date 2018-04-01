@@ -8,7 +8,7 @@ function text_ajax_process_request() {
 		// send the response back to the front end
 
 		global $wpdb;
-		$buyer_datas = $wpdb->get_results( "SELECT buyer FROM ".$wpdb->prefix."sss WHERE buyer LIKE '%". $buyer_value ."%'" );
+		$buyer_datas = $wpdb->get_results( "SELECT DISTINCT buyer FROM ".$wpdb->prefix."sss WHERE buyer LIKE '%". $buyer_value ."%'" );
 		$buyer_count = count($buyer_datas);
 		if ($buyer_count > 0){
         foreach ($buyer_datas  as $key => $buyer_data){
