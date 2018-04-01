@@ -101,7 +101,7 @@ $unser_amount = unserialize($value->amount);
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
         <div style='text-align:center;'><h2>INVOICE NO:<?php echo $value->invoiceno; ?> </h2></div>
-		<div class=""><p><?php echo $message; ?></p></div>
+		<?php if (isset($message)): ?><div class="success"><p><?php echo $message; ?></p></div><?php endif; ?>
         <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="POST">
             <div class="container-fluid">
                 <form>
@@ -157,7 +157,7 @@ $unser_amount = unserialize($value->amount);
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label for="buyer">Buyer</label>
-                                <textarea class="form-control" rows="5" name="buyer" id="buyer" required ><?php echo $value->buyer;?></textarea>
+                                <textarea class="form-control" rows="5" name="buyer" id="buyer" readonly ><?php echo $value->buyer;?></textarea>
                             </div>
                         </div>
 
@@ -425,6 +425,24 @@ $unser_amount = unserialize($value->amount);
         /*echo "<pre>";
         print_r($value);*/
     }?>
+	<style>
+.success {
+	background-color: #449d44;
+    color: #fff;
+    padding: 6px 1px 6px 18px;
+    font-size: 12px;
+    margin-bottom: 15px;
+}
+.success p {
+	padding: 0;
+	margin: 0;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+</style>
 <script>
 var room = 1;
 function dynamic_fields(){

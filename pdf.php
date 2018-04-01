@@ -5,7 +5,7 @@ use Dompdf\Dompdf;
     global $wpdb;
     $table_name = $wpdb->prefix . "sss";
     $rows = $wpdb->get_results("SELECT * from $table_name WHERE id=$id");
-	//echo "<pre>"; print_r($rows);
+//echo "<pre>"; print_r($rows);
 	foreach ($rows as $value){
 $unser_desc = unserialize($value->description);
 $unser_hsn = unserialize($value->hsn);
@@ -204,7 +204,7 @@ $content.="<tr class='pdf-price-details'><td ></td ><td ></td ><td ></td ><td ><
 <tr class='pdf-price-details' style='border-top:none;'><td></td><td>SGST $value->taxsgst%</td><td></td><td></td><td></td><td>$value->sgstamount</td></tr>
 <tr class='pdf-price-details' style='border-top:none;'><td></td><td>IGST $value->taxigst%</td><td></td><td></td><td></td><td>$value->igstamount</td></tr>
 <tr class='pdf-price-details'><td></td><td>Round off</td><td></td><td></td><td></td><td>";
-$content.=$value->total - $value->totalround;
+$content.=$value->total - $value->totaltax;
 $content.="</td></tr><tr class='pdf-price-last'>
 <td ></td>
 <td ><strong>Total</strong></td>
@@ -245,5 +245,4 @@ ob_end_clean();
 $dompdf->stream("SSS_TAX_INVOICE_".date("Ymd"), array("Attachment" => 0));
 exit();
 
-echo $content;
- 
+
