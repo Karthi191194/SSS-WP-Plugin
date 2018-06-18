@@ -228,7 +228,7 @@ $unser_amount = unserialize($value->amount);
                         <div class="col-sm-2">
                             <div class="form-group">
 
-                                <input type="text" class="form-control" id="hsn" name="hsn[]" value="<?php echo $unser_hsn[$x];?>" placeholder="HSN/SAC">
+                                <input type="text" class="form-control" id="hsn" name="hsn[]" maxlength="7" value="<?php echo $unser_hsn[$x];?>" placeholder="HSN/SAC">
                             </div>
                         </div>
                         <div class="col-sm-1">
@@ -275,7 +275,7 @@ $unser_amount = unserialize($value->amount);
                         <div class="col-sm-2">
                             <div class="form-group">
 
-                                <input type="text" class="form-control" id="hsn" name="hsn[]" placeholder="HSN/SAC">
+                                <input type="text" class="form-control" id="hsn" maxlength="7" name="hsn[]" placeholder="HSN/SAC">
                             </div>
                         </div>
                         <div class="col-sm-1">
@@ -391,7 +391,7 @@ $unser_amount = unserialize($value->amount);
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label for="amountwords">Amount Chargrable (in words)</label>
-                                <textarea class="form-control" rows="2" name="amountwords" id="amountwords"  placeholder="Amount Chargrable (in words)"><?php echo $value->amountwords;?></textarea>
+                                <textarea class="form-control" rows="2" name="amountwords" id="amountwords" readonly placeholder="Amount Chargrable (in words)"><?php echo $value->amountwords;?></textarea>
                             </div>
                         </div>
                     </div>
@@ -450,13 +450,15 @@ room++;
 var objTo = document.getElementById('dym_fields')
 var divadd = document.createElement("div");
 divadd.setAttribute("class","form-group removeclass"+room);
-divadd.innerHTML = '<div class="col-sm-1"></div><div class="col-sm-5"><div class="form-group"><input type="text" class="form-control  " id="desc"  name="desc[]" placeholder="Description of Goods"></div></div><div class="col-sm-2"><div class="form-group"><input type="text" class="form-control" id="hsn" name="hsn[]" placeholder="HSN/SAC"> </div></div><div class="col-sm-1"><div class="form-group"><input type="text" class="form-control" id="qty"  name="qty[]" placeholder="Qty"></div></div><div class="col-sm-1"><div class="form-group"><input type="text" class="form-control" id="rate" name="rate[]" placeholder="Rate"></div></div><div class="col-sm-2 "><div class="form-group"><div class="input-group"><input type="text" class="form-control" id="amount" readonly name="amount[]" placeholder="Amount"><div class="input-group-btn"> <button class="btn btn-danger" type="button" onclick="remove_dynamic_fields('+ room +');"> <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> </button></div></div></div></div>';
+divadd.innerHTML = '<div class="col-sm-1"></div><div class="col-sm-5"><div class="form-group"><input type="text" class="form-control  " id="desc"  name="desc[]" placeholder="Description of Goods"></div></div><div class="col-sm-2"><div class="form-group"><input type="text" class="form-control" maxlength="7" id="hsn" name="hsn[]" placeholder="HSN/SAC"> </div></div><div class="col-sm-1"><div class="form-group"><input type="text" class="form-control" id="qty"  name="qty[]" placeholder="Qty"></div></div><div class="col-sm-1"><div class="form-group"><input type="text" class="form-control" id="rate" name="rate[]" placeholder="Rate"></div></div><div class="col-sm-2 "><div class="form-group"><div class="input-group"><input type="text" class="form-control" id="amount" readonly name="amount[]" placeholder="Amount"><div class="input-group-btn"> <button class="btn btn-danger" type="button" onclick="remove_dynamic_fields('+ room +');"> <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> </button></div></div></div></div>';
 objTo.appendChild(divadd)
 }
 function remove_dynamic_fields(rid){
-$('.removeclass'+rid).remove();}
+$('.removeclass'+rid).remove();
+$('#totalround').keyup();}
 function remove_dynamic_fields_old(rid){
-    $('.removedy-'+rid).remove();}
+    $('.removedy-'+rid).remove();
+	$('#totalround').keyup();}
 
 </script>
 <script>

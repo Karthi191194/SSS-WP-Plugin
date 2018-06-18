@@ -47,7 +47,8 @@ width:50%;
 width:25%;}
 .pdf-price{
 width:100%;
-border-collapse: collapse;}
+border-collapse: collapse;
+	table-layout: fixed;}
 .pdf-price .width-5{
 width:5%;}
 .pdf-price .width-10{
@@ -57,7 +58,9 @@ width:20%;}
 .pdf-price .width-25{
 width:25%;}
 .pdf-price .width-45{
-width:45%;}
+width:45%;
+max-width:45%;}
+
 .pdf-price th{
 background-color:#82a9ba;}
 .pdf-price tr:nth-child(1){
@@ -174,7 +177,7 @@ $value->terms
 </td>
 </tr>
 </table>
-<table  class='pdf-price'>
+<table  class='pdf-price uv'>
 <tr>
 <th class='width-5' class='text-center'>Sl No</th>
 <th class='width-45' class='text-center'>Description of Goods</th>
