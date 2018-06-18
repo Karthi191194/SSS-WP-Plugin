@@ -209,7 +209,7 @@ $currentinoiceValue = $maxinvoiceValue + 1;
                 <div class="col-sm-2">
                     <div class="form-group">
 
-                        <input type="text" class="form-control" id="hsn" name="hsn[]" placeholder="HSN/SAC">
+                        <input type="text" class="form-control" id="hsn" maxlength="7" name="hsn[]" placeholder="HSN/SAC">
                     </div>
                 </div>
                 <div class="col-sm-1">
@@ -324,7 +324,7 @@ $currentinoiceValue = $maxinvoiceValue + 1;
                 <div class="col-sm-12">
                     <div class="form-group">
 					    <label for="amountwords">Amount Chargrable (in words)</label>
-                        <textarea class="form-control" rows="2" name="amountwords" id="amountwords" placeholder="Amount Chargrable (in words)"></textarea>
+                        <textarea class="form-control" rows="2" name="amountwords" id="amountwords" readonly placeholder="Amount Chargrable (in words)"></textarea>
                     </div>
                 </div>
             </div>
@@ -386,11 +386,12 @@ room++;
 var objTo = document.getElementById('dym_fields')
 var divadd = document.createElement("div");
 divadd.setAttribute("class","form-group removeclass"+room);
-divadd.innerHTML = '<div class="col-sm-1"></div><div class="col-sm-5"><div class="form-group"><input type="text" class="form-control" id="desc"  name="desc[]" placeholder="Description of Goods"></div></div><div class="col-sm-2"><div class="form-group"><input type="text" class="form-control" id="hsn" name="hsn[]" placeholder="HSN/SAC"> </div></div><div class="col-sm-1"><div class="form-group"><input type="number" class="form-control" id="qty" name="qty[]" placeholder="Quantity"></div></div><div class="col-sm-1"><div class="form-group"><input type="number" class="form-control" id="rate" name="rate[]" placeholder="Rate"></div></div><div class="col-sm-2 "><div class="form-group"><div class="input-group"><input type="text" class="form-control" id="amount" name="amount[]" readonly placeholder="Amount"><div class="input-group-btn"> <button class="btn btn-danger" type="button" onclick="remove_dynamic_fields('+ room +');"> <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> </button></div></div></div></div>';
+divadd.innerHTML = '<div class="col-sm-1"></div><div class="col-sm-5"><div class="form-group"><input type="text" class="form-control" id="desc"  name="desc[]" placeholder="Description of Goods"></div></div><div class="col-sm-2"><div class="form-group"><input type="text" class="form-control" id="hsn" maxlength="7" name="hsn[]" placeholder="HSN/SAC"> </div></div><div class="col-sm-1"><div class="form-group"><input type="number" class="form-control" id="qty" name="qty[]" placeholder="Quantity"></div></div><div class="col-sm-1"><div class="form-group"><input type="number" class="form-control" id="rate" name="rate[]" placeholder="Rate"></div></div><div class="col-sm-2 "><div class="form-group"><div class="input-group"><input type="text" class="form-control" id="amount" name="amount[]" readonly placeholder="Amount"><div class="input-group-btn"> <button class="btn btn-danger" type="button" onclick="remove_dynamic_fields('+ room +');"> <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> </button></div></div></div></div>';
 objTo.appendChild(divadd)
 }
 function remove_dynamic_fields(rid){
-$('.removeclass'+rid).remove();}
+$('.removeclass'+rid).remove();
+$('#totalround').keyup();}
 
 jQuery(document).on('click', '#buyer-list li',function(){
 	jQuery('#buyer').val($(this).text());
@@ -399,7 +400,7 @@ jQuery(document).on('click', '#buyer-list li',function(){
 
 </script>
 <script>
-$(document).on('keyup', "input[name^='qty'],input[name^='rate'],input[name^='amount'],#total,#taxcgst,#taxsgst,#taxigst,#amountwords,#totalround", function(e){
+$(document).on('click keyup', "input[name^='qty'],input[name^='rate'],input[name^='amount'],#total,#taxcgst,#taxsgst,#taxigst,#amountwords,#totalround", function(e){
       var uv = $("input[name^='qty']").length;
 	  var qty = $("input[name^='qty']");
 	  var rate = $("input[name^='rate']");
